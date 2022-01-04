@@ -21,8 +21,24 @@ strings.HasPrefix(s, prefix string) bool
 用汉语来翻译就是
 
 ```
-strings.HasPrefix(s, 你希望检测的开头有的东西而且她的格式是string) bool
+strings.HasPrefix(s, 你希望检测的开头有的东西而且她的格式是string) 这是个bool类型
 ```
+
+比如说我想检测一个string格式的 名为`liu`的字符串开头是不是`tenshen`，我可以写
+
+```
+string.HasPrefix(liu, "tenshen")
+```
+
+注意：后面的bool是不用写出来的，被检测的东西外面要加引号""
+
+这种类型的函数，按要求GO语言要返回值，所以一般用
+
+```
+fmt.Printf("%t\n",strings.HasPrefix(liu, "tenshen"))
+```
+
+直接打印出来结果。
 
 
 
@@ -205,7 +221,7 @@ strings.Repeat(s, count int) string
 也就是
 
 ```
-strings.Repeat(s, 重复数据格式为int的数字) string
+strings.Repeat(s, 重复次数 且此处数字数据格式为int) 打印出来的是string格式的数据
 ```
 
 示例
@@ -371,7 +387,7 @@ func main() {
 	}
 	 //for 用来计数的索引 你需要遍历(就是每一个拆出来算)的字符串 := range
     //for := range 在此处下划线 让在 for := range 中 用来计数的第一项被舍弃，把val用花括号里面的计算方式，也就是函数经行运算，复习一下:= 是一种简明的赋值语句。
-	fmt.Println()//用来打印上面的所有或者第一项？
+	fmt.Println()//用来打印一个空格的，相当于换行
 	//上面的func main() 是声明main包，这里是指调用了包外的函数fmt.Println()
 	str2 := "GO1|The ABC of Go|25"
 	sl2 := strings.Split(str2, "|") 

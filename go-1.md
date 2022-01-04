@@ -35,15 +35,15 @@
 ```go
 package main  
 // 告诉语言，我调用了一个名为 main 的包，这个main包意味着当前是一个可执行程序。
-调用包的语言package.用来来指明调用的所在的包
-一个可执行程序有且仅有一个 main 包
+//调用包的语言package.用来来指明调用的所在的包
+//一个可执行程序有且仅有一个 main 包
 
 import "fmt" 
 // 导入内置 fmt 包
-用 import 来引入包时,默认是在引入上面package引用的文件夹里的GO包， fmt包含有格式化I/O函数
+//用 import 来引入包时,默认是在引入上面package引用的文件夹里的GO包， fmt包含有格式化I/O函数
 
 func main(){  
-    // main函数，是程序执行的入口。function意思是功能，func也是一种函数，这一段意思是使用上面package提到的main包里的main方法，这段的main是上面提到的包里的一个方法或者叫做工具。
+    // main函数，是程序执行的入口。function意思是功能，func也是一种函数，这一段意思是使用上面package提到的main包里的main方法，这段的main是上面提到的包里的一个方法或者叫做工具。关键字func .
     
 	fmt.Println("Hello World!")  
     // 在终端打印 Hello World!。是调用fmt包里面的功能println，也就是打印。
