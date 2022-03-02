@@ -282,3 +282,9 @@ s2 = {5,6}
 
 直接看上去s1根本就没有5和6，下面开始讲解为什么是这样。
 
+https://github.com/vski5/GO-LearningNotes/blob/2021-11-6/%E6%85%95%E8%AF%BE%E6%9F%A5%E6%BC%8F%E8%A1%A5%E7%BC%BA/%E5%86%85%E5%BB%BA%E5%AE%B9%E5%99%A8%20%E6%95%B0%E7%BB%84%EF%BC%8C%E5%88%87%E7%89%87%EF%BC%8CMap%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2/slice%E7%9A%84view%E7%9A%84%E7%BB%93%E6%9E%84.jpg
+
+![slice的view的结构](https://github.com/vski5/GO-LearningNotes/blob/2021-11-6/%E6%85%95%E8%AF%BE%E6%9F%A5%E6%BC%8F%E8%A1%A5%E7%BC%BA/%E5%86%85%E5%BB%BA%E5%AE%B9%E5%99%A8%20%E6%95%B0%E7%BB%84%EF%BC%8C%E5%88%87%E7%89%87%EF%BC%8CMap%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2/slice%E7%9A%84view%E7%9A%84%E7%BB%93%E6%9E%84.jpg)
+
+
+
