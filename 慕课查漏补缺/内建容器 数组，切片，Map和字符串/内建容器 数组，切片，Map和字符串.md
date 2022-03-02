@@ -282,9 +282,24 @@ s2 = {5,6}
 
 直接看上去s1根本就没有5和6，下面开始讲解为什么是这样。
 
-https://github.com/vski5/GO-LearningNotes/blob/2021-11-6/%E6%85%95%E8%AF%BE%E6%9F%A5%E6%BC%8F%E8%A1%A5%E7%BC%BA/%E5%86%85%E5%BB%BA%E5%AE%B9%E5%99%A8%20%E6%95%B0%E7%BB%84%EF%BC%8C%E5%88%87%E7%89%87%EF%BC%8CMap%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2/slice%E7%9A%84view%E7%9A%84%E7%BB%93%E6%9E%84.jpg
+本质上是对底层的arr的view而不是对s1的view，slice是可以扩展的。
 
 ![slice的view的结构](https://github.com/vski5/GO-LearningNotes/blob/2021-11-6/%E6%85%95%E8%AF%BE%E6%9F%A5%E6%BC%8F%E8%A1%A5%E7%BC%BA/%E5%86%85%E5%BB%BA%E5%AE%B9%E5%99%A8%20%E6%95%B0%E7%BB%84%EF%BC%8C%E5%88%87%E7%89%87%EF%BC%8CMap%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2/slice%E7%9A%84view%E7%9A%84%E7%BB%93%E6%9E%84.jpg)
 
 
+
+slice的实现：ptr指向开头的元素，len说明slice的长度，cap决定下面整个arr的长度就是最长能取的长度。
+
+![slice的结构与实现](https://github.com/vski5/GO-LearningNotes/blob/2021-11-6/%E6%85%95%E8%AF%BE%E6%9F%A5%E6%BC%8F%E8%A1%A5%E7%BC%BA/%E5%86%85%E5%BB%BA%E5%AE%B9%E5%99%A8%20%E6%95%B0%E7%BB%84%EF%BC%8C%E5%88%87%E7%89%87%EF%BC%8CMap%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2/slice%E7%9A%84%E7%BB%93%E6%9E%84%E4%B8%8E%E5%AE%9E%E7%8E%B0.jpg)
+
+### lens和cap是可以取得的
+
+```go
+arr := [...]int {0, 1, 2, 3, 4, 5, 6, 7}
+s1 := arr[2:6]
+s2 := s1[3:5]
+
+fmt.Printf(s1,len(s1),cap(s1)) //这一步就是求s1和len和cap
+
+```
 
