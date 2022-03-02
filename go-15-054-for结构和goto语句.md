@@ -88,6 +88,47 @@ for i:=0; i<5; i++ {
 }
 ```
 
+# for语句的嵌套执行顺序
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	for i := 0; i <= 3; i++ {
+		for j := 1; j <= 3; j++ {
+			if j == 3 {
+				break
+			}
+			fmt.Printf("i is: %d, and j is: %d\n", i, j)
+		}
+	}
+
+}
+
+```
+
+输出：
+
+```
+i is: 0, and j is: 1
+i is: 0, and j is: 2 //这里就是先再i=0的情况下，把j允许的依次列出来，再列举i=1时候j有哪些可能
+i is: 1, and j is: 1
+i is: 1, and j is: 2
+i is: 2, and j is: 1
+i is: 2, and j is: 2
+i is: 3, and j is: 1
+i is: 3, and j is: 2
+
+```
+
+**<u>这里就是先再i=0的情况下，把j允许的依次列出来，再列举i=1时候j有哪些可能，以此类推</u>**
+
+就像是最外层，也就是 *i* 的可能性当作一个又一个并列的箱子，然后每一个箱子里面再列举 *j* 的可能性，这里面的每一个 *j* 又能作为小箱子。
+
+
+
 ## 一个花活儿：用 for结构 循环迭代一个Unicode编码的字符串
 
 ```go

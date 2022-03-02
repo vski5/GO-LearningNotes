@@ -70,6 +70,32 @@ func main() {
 
 
 
+一个抽象：
+
+```go
+type 接口名称 interface { //声明一个接口，其中包括名为的Speak()方法，此处不单是声明接口，也创造了声明了方法。
+    //接口中的所有方法都要被实现。
+	Speak() string
+}
+
+type Dog struct { //声明Dog是一种struct（类型）
+}
+
+func (Dog) Speak() string { //声明：将类型Dog用方法Speak() 作用的时候，返回{}内的东西
+	return "Woof!"
+}
+
+//1-声明接口，其中有什么方法；
+//2-声明类型；
+//3-封装方法，
+//func (类型名称) 方法名称() 类型 { 
+//	return "返回值"
+//}
+
+```
+
+
+
 ##  `interface{}` 类型
 
 
@@ -142,6 +168,8 @@ Kenny is running
 
 一些英语：
 
+area——面积
+
 geometry——几何学
 
 width——宽度
@@ -150,60 +178,61 @@ width——宽度
 package main
 
 import (
-    "fmt"
-    "math"
+	"fmt"
+	"math"
 )
 
 type geometry interface { //这是一个几何体的基本接口,interface就是接口的意思，此处声明geometry的类型为interface（接口）
-    area() float64
-    perim() float64 //声明这两函数格式为float64
+	area() float64
+	perim() float64 //声明这两方法的格式为float64
 }
 
 type rect struct {
-    //struct类型是一种作为其它类型的属性或字段的容器。例如，我们可以创建一个自定义类型rect，代表一个容器。这个容器拥有属性：也就是下面声明的width, height float64。
-    //这样的类型称为struct。
-    width, height float64 //将为 rect 和 circle 实现该接口。
+	//struct类型是一种作为其它类型的属性或字段的容器。例如，我们可以创建一个自定义类型rect，代表一个容器。这个容器拥有属性：也就是下面声明的width, height float64。
+	//这样的类型称为struct。
+	width, height float64 //将为 rect 和 circle 实现该接口。
 }
 type circle struct { //同上，创造一个包含 了 数据类型为float64的名为radius的函数 的 容器，这个容器也就是 一个struct数据类型的名为circle的函数。
-    radius float64
+	radius float64
 }
 
-func (r rect) area() float64 {  //这里的(r rect)就是var r rect ，也就是声明r就是rect。
-    //等效于func (rect).area() float64{}
-    //这里就相当于调用了容器rect和接口area()
-    //接口定义了对象的行为，接口指定类型应具有的方法，类型决定如何实现这些方法。(rect).area()就是方法
-    //要在 Go 中实现一个接口，我们只需要实现接口中的所有方法。
-    //rect是上面声明的容器。
-    //名为geometry的interface（接口）中包含了area() float64
-    //(rect).area()就是调用reach里的函数area() float64
-    //这里我们为 rect 实现了 geometry 接口，因为实现了这个接口里的所有方法。
-    return r.width * r.height
+func (r rect) area() float64 { //这里的(r rect)就是var r rect ，也就是声明r就是rect。
+	//等效于func (rect).area() float64{}
+	//这里就相当于调用了容器rect和接口area()
+	//接口定义了对象的行为，接口指定类型应具有的方法，类型决定如何实现这些方法。(rect).area()就是方法
+	//要在 Go 中实现一个接口，我们只需要实现接口中的所有方法。
+	//rect是上面声明的容器。
+	//名为geometry的interface（接口）中包含了area() float64
+	//(rect).area()就是调用reach里的函数area() float64
+	//这里我们为 rect 实现了 geometry 接口，因为实现了这个接口里的所有方法。
+	return r.width * r.height
 }
 func (r rect) perim() float64 {
-    return 2*r.width + 2*r.height
+	return 2*r.width + 2*r.height
 }
 
 func (c circle) area() float64 {
-    return math.Pi * c.radius * c.radius
+	return math.Pi * c.radius * c.radius
 }
 func (c circle) perim() float64 {
-    return 2 * math.Pi * c.radius
+	return 2 * math.Pi * c.radius
 }
 
 func measure(g geometry) {
-    //如果一个变量实现了某个接口，我们就可以调用指定接口中的方法。 这儿有一个通用的 measure 函数，我们可以通过它来使用所有的 geometry。
-    fmt.Println(g)
-    fmt.Println(g.area())
-    fmt.Println(g.perim())
+	//如果一个变量实现了某个接口，我们就可以调用指定接口中的方法。 这儿有一个通用的 measure 函数，我们可以通过它来使用所有的 geometry。
+	fmt.Println(g)
+	fmt.Println(g.area())
+	fmt.Println(g.perim())
 }
 
 func main() {
-    r := rect{width: 3, height: 4}
-    c := circle{radius: 5}
+	r := rect{width: 3, height: 4}
+	c := circle{radius: 5}
 
-    measure(r) //结构体类型 circle 和 rect 都实现了 geometry 接口， 所以我们可以将其实例作为 measure 的参数。
-    measure(c)
+	measure(r) //结构体类型 circle 和 rect 都实现了 geometry 接口， 所以我们可以将其实例作为 measure 的参数。
+	measure(c)
 }
+
 ```
 
 **输出：**
