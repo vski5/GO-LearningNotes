@@ -187,7 +187,7 @@ str2的长度是: 6
 
 一个例子
 
-```
+```go
 package main
 
 import "fmt"

@@ -1,4 +1,4 @@
-# go-12-struct这种类型
+# go-12-struct这种类型，又叫结构体
 
 学习自：[Go语言基础之结构体struct - RandySun - 博客园 (cnblogs.com)](https://www.cnblogs.com/randysun/p/15417504.html)
 
@@ -149,4 +149,53 @@ fmt.Printf("%#v\n", a)
 
 
 
+# go by example的例子
+
+Go 的*结构体(struct)* 是带类型的字段(fields)集合。 这在组织数据时非常有用。
+
+```go
+package main
+
+import "fmt"
+
+//这里的 person 结构体包含了 name 和 age 两个字段。
+type person struct {
+	name string
+	age  int
+}
+
+//newPerson 使用给定的名字构造一个新的 就像是person一样的结构体.以person为模板一样。
+func newPerson(nameinput string) *person {
+	//符号 * 可以放在一个指针前，如 *intP (此处intp为一个已经声明了的指针)，那么它将得到这个指针指向地址上所存储的值
+	//*person指向person的数值。
+	//输入值name，返回值*person
+	//您可以安全地返回指向局部变量的指针， 因为局部变量将在函数的作用域中继续存在。
+	p := person{name: nameinput}
+	p.age = 42
+	return &p
+}
+
+func main() {
+
+	fmt.Println(person{"Bob", 20}) //使用这个语法创建新的结构体元素。
+
+	fmt.Println(person{name: "Alice", age: 30}) //你可以在初始化一个结构体元素时指定字段名字。
+
+	fmt.Println(person{name: "Fred"}) //省略的字段将被初始化为零值。此处age字段返回0
+
+	fmt.Println(&person{name: "Ann", age: 40}) //& 前缀生成一个结构体指针。
+
+	fmt.Println(newPerson("Jon")) //在构造函数中封装创建新的结构实例是一种习惯用法，按上面封装的函数，输入jon输出&p，也就是&person{name: nameinput，age = 42}
+
+	s := person{name: "Sean", age: 50} //使用 在下面的点 . 来访问结构体字段。
+	fmt.Println(s.name)
+
+	sp := &s //也可以对结构体指针使用在下面的点 . 指针会被自动解引用，就是指针本来指向地址现在直接无效化。
+	fmt.Println(sp.age)
+
+	sp.age = 51 //结构体是可变(mutable)的。用单个等于号修改结构体内字段名的值
+	fmt.Println(sp.age)
+}
+
+```
 
