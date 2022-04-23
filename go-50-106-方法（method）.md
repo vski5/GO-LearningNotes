@@ -152,35 +152,19 @@ func main() {
 
 ```go
 // 这个示例程序展示如何声明
-
-  
-
 // 并使用方法
-
-  
-
 package main
-
-  
-
 import (
 
  "fmt"
 
 )
 
-  
-
 // user 在程序里定义一个用户类型
-
-  
 
 type user struct {
 
  name string
-
-  
-
  email string
 
 }
@@ -189,21 +173,13 @@ type user struct {
 
 // notify 使用值接收者实现了一个方法
 
-  
-
-func (u user) notify() { //notify 方法的接收者被声明为 user 类型的值。需要一个alias（别名）来获取到这个值。
-
+func (u user) notify() { //notify 方法的接收者被声明为 user 类型的值。需要一个alias（别名）此处为u来获取到这个值。
+//这一步还在定义下面的代码块才开始使用。
  fmt.Printf("Sending User Email To %s<%s>\n",
-
-  
 
  u.name,
 
-  
-
  u.email)
-
-  
 
 }
 
@@ -211,55 +187,30 @@ func (u user) notify() { //notify 方法的接收者被声明为 user 类型的�
 
 // changeEmail 使用指针接收者实现了一个方法
 
-  
-
 func (u *user) changeEmail(endemail string) {
-
-  
 
  u.email = endemail
 
-  
-
 }
 
-  
 
 // main 是应用程序的入口
 
-  
-
 func main() {
-
-  
 
  // user 类型的值可以用来调用
 
-  
-
  // 使用值接收者声明的方法
-
-  
 
  bill := user{"Bill", "bill@email.com"} //声明user类型的变量bill
 
-  
-
  bill.notify() //此处的bill就相当于上面重新声明出来的的u，充当receiver的作用。使用变量 bill 来 调用 notify 方法
-
-  
 
  // 指向 user 类型值的指针也可以用来调用
 
-  
-
  // 使用值接收者声明的方法
 
-  
-
  lisa := &user{"Lisa", "lisa@email.com"} //这里声明的是user这个类型的指针，依旧可以被作用与user这个类型的方法操作。
-
-  
 
  lisa.notify()
 
@@ -283,27 +234,16 @@ func main() {
 
  bill.changeEmail("bill@newdomain.com")
 
-  
-
  bill.notify()
 
-  
 
  // 指向 user 类型值的指针可以用来调用
 
-  
-
  // 使用指针接收者声明的方法
-
-  
 
  lisa.changeEmail("lisa@newdomain.com")
 
-  
-
  lisa.notify()
-
-  
 
 }
 ```
