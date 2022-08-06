@@ -25,7 +25,10 @@ func getEncoder() zapcore.Encoder {
 
 //WriterSyncer ：指定日志将写到哪里去。
 func getLogWriter() zapcore.WriteSyncer {
-	file, _ := os.Create("./test.log")
+	//创造
+	os.Create("./test.log")
+	//打开创造的文件，追加日志
+	file, _ := os.OpenFile("./test.log", os.O_APPEND|os.O_WRONLY, os.ModeAppend, 0744)
 	return zapcore.AddSync(file) //为了满足接口，转格式。
 }
 
@@ -53,6 +56,29 @@ func InitLogger() {
 	//logger.Info("hello world") //输出文字"hello world"到文件中
 }
 
+//其他的手段：
+//更改时间编码,属于Encoder:编码器(如何写入日志)的一部分
+func getTimeEncoder() zapcore.Encoder {
+	//zap.NewProductionEncoderConfig()本质上就是造了一个zapcore.EncoderConfig结构体，我也可以造一个自己的结构体，然后设置好我想要的配置。
+	encoderConfig := zapcore.EncoderConfig{
+		TimeKey:        "time",
+		LevelKey:       "level",
+		NameKey:        "logger",
+		CallerKey:      "caller",
+		MessageKey:     "msg",
+		StacktraceKey:  "stacktrace",
+		LineEnding:     zapcore.DefaultLineEnding,
+		EncodeLevel:    zapcore.LowercaseLevelEncoder,
+		EncodeTime:     zapcore.ISO8601TimeEncoder,
+		EncodeDuration: zapcore.SecondsDurationEncoder,
+		EncodeCaller:   zapcore.ShortCallerEncoder,
+	}
+	//zapcore.NewTimeEncoder作用是把时间转换成字符串。
+	return zapcore.NewTimeEncoder(encoderConfig)
+	//后面要用的话直接就给编码器赋值为这个函数的返回值（类型为zapcore.Encoder）
+	//encoder := getTimeEncoder()
+}
+
 func main() {
 	InitLogger()
 	defer logger.Sync() //记得关，写到磁盘里，拔环
@@ -71,7 +97,5 @@ func main() {
 			zap.String("url", "http://www.baidu.com"))
 	}
 	eg.Body.Close() //关闭body,不然会一直占用内存，body是http.Get求出来的内容。
-	//现在只能从控制台打出来
-	//打到日志文件里面去：
 
 }
