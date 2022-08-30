@@ -13,6 +13,7 @@ func main() {
 	// 配置路由
 	//对着，用get方法访问了后缀为check网址的用户，使用后面的func函数
 	r.GET("/check", func(c *gin.Context) {
+		//200是状态码，英文名OK，表示成功。一般用于GET与POST请求。
 		c.JSON(200, gin.H{ // c.JSON：返回 JSON 格式的数据
 			"message": "Hello world!"})
 	})
