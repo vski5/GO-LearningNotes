@@ -30,10 +30,16 @@ func main() {
 		c.String(200, "DELETE test ok")
 	})
 
-	/*路由里面获取 Get 传值*/
-
-	/*动态路由*/
-
+	/*路由里面获取 Get 传值，域名/news?aidkey=20 */
+	r.GET("/news", func(c *gin.Context) {
+		aidvalue := c.Query("aidkey")     //c.Query("key")输入key返回value
+		c.String(200, "aid=%s", aidvalue) //返回值为aid=20，也就是?后面的设定的aidkey
+	})
+	/*动态路由,域名/user/20 */
+	r.GET("/user/:uidIsWhat", func(c *gin.Context) {
+		uid := c.Param("uidIsWhat")
+		c.String(200, "userID=%s", uid)
+	})
 	// 启动 HTTP 服务，默认在 0.0.0.0:8080 启动服务
 	r.Run() //在9090端口使用：r.Run(":9090")
 }
