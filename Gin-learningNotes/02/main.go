@@ -1,6 +1,8 @@
 package main
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,19 +15,19 @@ func main() {
 	/* 四个方法 （的应对） */
 	//1. GET：从服务器取出资源
 	r.GET("/getwangzhi", func(c *gin.Context) {
-		c.String(200, "Get")
+		c.String(200, "前面的200是状态码(等同于http.StatusOK),此处是Get方法反馈的值")
 	})
 	//2. POST：在服务器新建资源
 	r.POST("/postwangzhi", func(c *gin.Context) {
-		c.String(200, "POST")
+		c.String(http.StatusOK, "POST test ok")
 	})
 	//3. PUT： 在服务器跟新资源（客户端提供改变后的完整资源）
 	r.PUT("/putwangzhi", func(c *gin.Context) {
-		c.String(200, "PUT")
+		c.String(200, "PUT test ok")
 	})
 	//4. DELETE: 从服务器删除资源
 	r.DELETE("网址", func(c *gin.Context) {
-		c.String(200, "DELETE")
+		c.String(200, "DELETE test ok")
 	})
 
 	/*路由里面获取 Get 传值*/
