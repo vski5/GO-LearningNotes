@@ -51,6 +51,16 @@ func main() {
 	})
 
 	/*   3. 返回JSONP*/
+	/*和JSON差不多，但是格式不同，类似c.query的aid,网站为/JSONP?callback=x ， 此处的x可为其他的值
+	 */
+	r.GET("/JSONP", func(c *gin.Context) {
+		data := map[string]interface{}{
+			"foo":  "bar",
+			"key2": "value2",
+		}
+		c.JSONP(200, data)
+	})
+	// 将输出：x({"foo":"bar","key2":"value2"});
 
 	r.Run(":8080")
 }
