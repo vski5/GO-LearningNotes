@@ -62,5 +62,7 @@ func main() {
 	})
 	// 将输出：x({"foo":"bar","key2":"value2"});
 
+	/*   4. 返回XML*/
+
 	r.Run(":8080")
 }
