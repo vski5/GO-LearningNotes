@@ -14,7 +14,7 @@ type Stext struct {
 
 func main() {
 	r := gin.Default()
-
+	r.LoadHTMLGlob("default/*") //初始化HTML文件地址，记得写在最前面
 	/*   1.返回string*/
 	r.GET("/string", func(c *gin.Context) {
 		aid := c.Query("aid")
@@ -77,8 +77,9 @@ func main() {
 	})
 
 	/*HTML的渲染*/
+	/*需要先初始化r.LoadHTMLGlob("default/*")确定文件的位置*/
 	r.GET("/goods", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "./default/goods.html",
+		c.HTML(http.StatusOK, "goods.html",
 			gin.H{
 				"title": "我是商品页面",
 				"price": 20,
