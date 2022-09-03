@@ -2,12 +2,14 @@ package main
 
 //返回不同类型的值。c.String() c.JSON() c.JSONP() c.XML() c.HTML()
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 )
 
 type Stext struct {
-	Key1 string
-	Key2 int
+	Key1 string `json:"key1,GET之后会显示标签内的内容,仅限改成小写字符"`
+	KEY2 int    `json:"key2"`
 }
 
 func main() {
@@ -42,9 +44,9 @@ func main() {
 		structjson.Key3 = 999
 		c.JSON(200, structjson)
 		/*结构体的定义可以在外面定义，但记得大写以便传值,使用s := &structname 来实例化*/
-		s := Stext{ //可以用&Stext
+		s := &Stext{ //可以不用&，但会浪费内存
 			Key1: "value1",
-			Key2: 2,
+			KEY2: 2,
 		}
 		c.JSON(200, s)
 
@@ -63,6 +65,26 @@ func main() {
 	// 将输出：x({"foo":"bar","key2":"value2"});
 
 	/*   4. 返回XML*/
+	r.GET("/xml", func(c *gin.Context) {
+		type Msg2 struct {
+			Key  string
+			Key2 string
+		}
+		var ms Msg2
+		ms.Key = "value1"
+		ms.Key2 = "VALUE2"
+		c.XML(200, ms)
+	})
+
+	/*HTML的渲染*/
+	r.GET("/goods", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "./default/goods.html",
+			gin.H{
+				"title": "我是商品页面",
+				"price": 20,
+			})
+	})
 
 	r.Run(":8080")
+
 }
