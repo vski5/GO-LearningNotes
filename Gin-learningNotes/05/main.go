@@ -10,12 +10,20 @@ func main() {
 	r := gin.Default()
 	//r.LoadHTMLFiles("default/index.html", "default/news.html") 因为r.LoadHTMLFiles不支持泛解析
 	//r.LoadHTMLGlob("default/*")可以直接准备一个文件夹
-	r.LoadHTMLGlob("default/*")
+	r.LoadHTMLGlob("different/**/*") //有两个同名文件在不同文件夹下面的解决方法，记得在HTML首位加上{{ define "文件夹名字/文件名字" }}和{{<end>}}
 	r.GET("/html", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html",
+		c.HTML(http.StatusOK, "admin/index.html",
 			gin.H{
 				"title": "text",
 			})
+
+	})
+	r.GET("/html2", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "default1/index.html",
+			gin.H{
+				"title": "text2",
+			})
+
 	})
 	r.Run(":8080")
 }
