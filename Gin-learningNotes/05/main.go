@@ -6,6 +6,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type Artitle struct {
+	Title   string
+	Content string
+}
+
 func main() {
 	r := gin.Default()
 	//r.LoadHTMLFiles("default/index.html", "default/news.html") 因为r.LoadHTMLFiles不支持泛解析
@@ -25,5 +30,21 @@ func main() {
 			})
 
 	})
+
+	//嵌套结构的html渲染
+
+	r.GET("/html3", func(c *gin.Context) {
+		//实例化一下
+		news := &Artitle{
+			Title:   "标题",
+			Content: "内容",
+		}
+		c.HTML(200, "default1/news.html",
+			gin.H{
+				"title": "主标题",
+				"news":  news,
+			})
+	})
+
 	r.Run(":8080")
 }
