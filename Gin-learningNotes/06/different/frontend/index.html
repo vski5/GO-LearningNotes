@@ -1,0 +1,82 @@
+<!-- 相当于给模板定义一个名字 define end 成对出现-->
+{{ define "frontend/index.html" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>{{.title}}</h2>
+
+    <!-- 定义变量 -->
+    {{$t := .title}}
+
+    <br>
+    <h4>
+        {{$t}}
+    </h4>
+    <!-- 条件判断 -->
+
+    {{if ge .score 60}}
+        <p>及格</p>
+    {{else}}
+        <p>不及格</p>
+    {{end}}
+
+
+    {{if gt .score 90}}
+        <p>优秀</p>
+    {{else if gt .score 80}}
+        <p>良好</p>
+    {{else if gt .score 60}}
+        <p>及格</p>
+        {{else}}
+    <p>不及格</p>
+    {{end}}
+
+
+    <!-- 循环遍历数据 -->
+
+    <ul>
+        {{range $key,$value:=.hobby}}
+        <li>{{$key}}----{{$value}}</li>
+        {{end}}
+        
+    </ul>
+
+    <br>
+
+    
+    <ul>
+        {{range $key,$value:=.newsList}}
+                <li>{{$key}}----{{$value.Title}}---{{$value.Content}}</li>
+        {{end}}        
+    </ul>
+
+    <br>
+    <ul>
+        {{range $key,$value:=.testSlice}}
+             <li>{{$key}}----{{$value}}</li>
+
+        {{else}}
+            <li>数组中没有数据</li>
+        {{end}}        
+    </ul>
+
+    <!-- with 解构结构体 -->
+
+    <p>{{.news.Title}}</p>
+    <p>{{.news.Content}}</p>
+
+    <br>
+
+    {{with .news}}
+         <p>{{.Title}}</p>
+        <p>{{.Content}}</p>
+    {{end}}
+</body>
+</html>
+{{ end }}
