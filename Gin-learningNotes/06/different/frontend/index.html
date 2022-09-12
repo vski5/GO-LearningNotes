@@ -11,7 +11,7 @@
 <body>
     <h2>{{.title}}</h2>
 
-    <!-- 定义变量 -->
+    <!-- 定义变量，不会显示出来 -->
     {{$t := .title}}
 
     <br>
@@ -72,7 +72,7 @@
     <p>{{.news.Content}}</p>
 
     <br>
-
+<!-- 此处直接写.省去了news这个前缀 -->
     {{with .news}}
          <p>{{.Title}}</p>
         <p>{{.Content}}</p>
