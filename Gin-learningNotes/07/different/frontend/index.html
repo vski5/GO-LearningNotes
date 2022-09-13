@@ -1,0 +1,23 @@
+<!-- 相当于给模板定义一个名字 define end 成对出现-->
+{{ define "frontend/index.html" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>{{.title}}</h2>
+    <p>
+        {{with .real}}
+        <h4>{{.Title}}</h4>
+        <h4>{{.Content}}</h4>
+        {{end}}
+        
+    </p>
+    
+</body>
+</html>
+{{ end }}
