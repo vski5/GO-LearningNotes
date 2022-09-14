@@ -1,0 +1,17 @@
+{{define "public/page_header.html"}}
+<style>
+    h1{
+        color: rgb(129, 91, 44);
+        background-color: black;
+        text-align: center;
+
+    }
+</style>
+<h1>公共标题，但是会无限循环，无法正常引用</h1>
+
+
+
+{{end}} 
+
+<!-- 引用方法为 {{template "public/page_header.html" .}} -->
+
