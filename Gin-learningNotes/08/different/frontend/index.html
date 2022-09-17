@@ -1,0 +1,20 @@
+<!-- 相当于给模板定义一个名字 define end 成对出现-->
+{{ define "frontend/index.html" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 后面的是地址，开头要加上./，表示当前文件夹下，statictest和前面r.Static("/statictest", "./static")相对应，"./static"是实际地址， "/statictest"是映射地址，求的地址是映射地址，GET "/statictest/css/style.css"-->
+    <link rel="stylesheet" href="./statictest/css/style.css">
+</head>
+<body>
+   <!--  插入公共模板 -->
+   {{template "public/page_header.html" .}}
+    <h2>{{.title}}</h2>
+
+</body>
+</html>
+{{ end }}
