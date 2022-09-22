@@ -28,13 +28,13 @@ func main() {
 		c.HTML(200, "formpages/formpage.html", gin.H{})
 	})
 	//第二部：
-	r.POST("/addform", func(c *gin.Context) {
-		zhanghao := c.PostForm("zhanghao")
-		mima := c.PostForm("mima")
+	r.POST("/adduser", func(c *gin.Context) {
+		username := c.PostForm("username")
+		password := c.PostForm("password")
 
 		c.JSON(200, gin.H{
-			"zhanghao": zhanghao,
-			"mima":     mima,
+			"username": username,
+			"password": password,
 		})
 	})
 

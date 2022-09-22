@@ -5,16 +5,17 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./static/css/style.css"> 
+    <!-- <link rel="stylesheet" href="./static/css/style.css">  -->
 </head>
 <body>
-    <form action="/addform" method="post"></form>
-    <!-- action后面填网址 -->
-    账号：<input type="text" name="zhanghao">
-    <br>
-    密码：<input type="password" name="mima">
-    <br>
-    <input type="submit" value="提交">
+    <form action="/adduser" method="post">
+        
+        用户名:<input type="text" name="username" /> <br><br>
+        密码:<input type="password" name="password" /> <br><br>      
+
+        <input type="submit" value="提交">
+    </form>
+    
 </body>
 </html>
 {{end}}
