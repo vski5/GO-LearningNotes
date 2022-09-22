@@ -31,10 +31,12 @@ func main() {
 	r.POST("/adduser", func(c *gin.Context) {
 		username := c.PostForm("username")
 		password := c.PostForm("password")
+		age := c.DefaultPostForm("age", "20000") //在HTML里写了表单，即使不填也会发送“空”进行填空，不会出现第二个空设置的默认值
 
 		c.JSON(200, gin.H{
 			"username": username,
 			"password": password,
+			"age":      age,
 		})
 	})
 
