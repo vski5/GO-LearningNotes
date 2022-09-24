@@ -1,10 +1,17 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
+
+type Userinfo struct {
+	Username string `form:"username" json:"user"`
+	Password string `form:"password" json:"password"`
+	Age      string ` from:"age json:"age" "`
+}
 
 func main() {
 	r := gin.Default()
@@ -38,6 +45,22 @@ func main() {
 			"password": password,
 			"age":      age,
 		})
+	})
+	//第三步，把传回的数据绑定到结构体,另用一个html页面。
+	r.GET("/forms2", func(c *gin.Context) {
+		c.HTML(200, "formpages/formpage2.html", gin.H{})
+	})
+	r.POST("/adduser2", func(c *gin.Context) {
+		var user Userinfo
+		user.Username = c.PostForm("username")
+		user.Password = c.PostForm("password")
+		user.Age = c.DefaultPostForm("age", "20000") //在HTML里写了表单，即使不填也会发送“空”进行填空，不会出现第二个空设置的默认值
+		if err := c.ShouldBind(&user); err == nil {
+			c.JSON(200, user)
+			fmt.Printf("%#v", user)
+		} else {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		}
 	})
 
 	r.Run(":8080")
