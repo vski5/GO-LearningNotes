@@ -10,7 +10,7 @@ import (
 type Userinfo struct {
 	Username string `form:"username" json:"user"`
 	Password string `form:"password" json:"password"`
-	Age      string ` from:"age json:"age" "`
+	Age      string `from:"age" json:"age"`
 }
 
 func main() {
