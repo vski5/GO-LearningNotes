@@ -51,15 +51,16 @@ func main() {
 		c.HTML(200, "formpages/formpage2.html", gin.H{})
 	})
 	r.POST("/adduser2", func(c *gin.Context) {
-		var user Userinfo
-		user.Username = c.PostForm("username")
-		user.Password = c.PostForm("password")
-		user.Age = c.DefaultPostForm("age", "20000") //在HTML里写了表单，即使不填也会发送“空”进行填空，不会出现第二个空设置的默认值
-		if err := c.ShouldBind(&user); err == nil {
+		user := &Userinfo{}
+		//理论上c.ShouldBind(&user)可以替代下面的三行c.PostForm，但是实操发现会失去age的值
+		/* 		user.Username = c.PostForm("username")
+		   		user.Password = c.PostForm("password")
+		   		user.Age = c.PostForm("age") */ //在HTML里写了表单，即使不填也会发送“空”进行填空，不会出现第二个空设置的默认值
+		if err := c.ShouldBind(&user); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		} else {
 			c.JSON(200, user)
 			fmt.Printf("%#v", user)
-		} else {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		}
 	})
 
