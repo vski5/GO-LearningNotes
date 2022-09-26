@@ -21,8 +21,8 @@ import (
 
 //结构体：
 type Article struct {
-	Content string `xml:"content" from:"content"`
-	Title   string `xml:"title" from:"title"`
+	Content string `xml:"content" json:"content"`
+	Title   string `xml:"title" json:"title"`
 }
 
 func main() {
