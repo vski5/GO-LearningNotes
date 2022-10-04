@@ -11,5 +11,7 @@ func FrontRouterInit(c *gin.Engine) {
 	{
 		frontRouter.GET("/test1", front.BackHTML)
 		frontRouter.GET("/test2", front.BackString)
+
+		frontRouter.GET("/test3", front.FrontController{}.Test)
 	}
 }

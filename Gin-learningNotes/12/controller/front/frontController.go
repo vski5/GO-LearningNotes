@@ -10,3 +10,6 @@ func BackHTML(c *gin.Context) {
 func BackString(c *gin.Context) {
 	c.String(200, "test2", gin.H{})
 }
+func (f FrontController) Test(c *gin.Context) {
+	c.String(200, "test,test,test", gin.H{})
+}
