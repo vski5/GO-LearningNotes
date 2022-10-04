@@ -9,7 +9,7 @@ import (
 func FrontRouterInit(c *gin.Engine) {
 	frontRouter := c.Group("front")
 	{
-		frontRouter.GET("/test1", front.FrontController{}.BackHTML)
-		frontRouter.GET("/test2", front.FrontController{}.BackString)
+		frontRouter.GET("/test1", front.BackHTML)
+		frontRouter.GET("/test2", front.BackString)
 	}
 }
