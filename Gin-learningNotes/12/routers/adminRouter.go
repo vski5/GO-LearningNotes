@@ -9,10 +9,8 @@ import (
 func AdminRouterInit(r *gin.Engine) {
 	adminRouter := r.Group("admin")
 	{
-		adminRouter.GET("test1", admin.AdminController.Init)
-		adminRouter.GET("test2", func(c *gin.Context) {
-			c.String(200, "test2", gin.H{})
-		})
+		adminRouter.GET("/test1", admin.AdminController{}.Add)
+		adminRouter.GET("/test2", admin.AdminController{}.BackString)
 
 	}
 }
