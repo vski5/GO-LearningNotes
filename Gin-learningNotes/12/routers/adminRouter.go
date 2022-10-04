@@ -10,7 +10,7 @@ func AdminRouterInit(r *gin.Engine) {
 	adminRouter := r.Group("admin")
 	{
 		adminRouter.GET("/test1", admin.AdminController{}.Add)
-		adminRouter.GET("/test2", admin.AdminController{}.BackString)
+		adminRouter.GET("/test2", admin.AdminController{}.Back)
 
 	}
 }
