@@ -19,7 +19,8 @@ func useMiddleware2(c *gin.Context) {
 	fmt.Println("一个全局中间件222")
 }
 func main() {
-	r := gin.Default()
+	//r := gin.Default() 此处是有默认的中间件的，看源码。
+	r := gin.New()                       //用 gin.New()新建一个没有任何默认中间件的路由。
 	r.Use(useMiddleware, useMiddleware2) //Use制造全局中间件，所有路由后面都第一个执行一次。可以加无数个全局中间件
 	r.Static("/static", "./static")
 	r.SetFuncMap(template.FuncMap{

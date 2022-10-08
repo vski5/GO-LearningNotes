@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,5 +21,14 @@ func AdminRoutergroupMiddleware2(c *gin.Context) {
 	} else {
 		fmt.Println("类型断言失败")
 	}
+
+	//gin 中间件中使用 goroutine不能使用原始的上下文（c *gin.Context），必须使用其只读副本 c.Copy()
+	cCopy := c.Copy()
+	go func() {
+		time.Sleep(5 * time.Second)
+		// 这里使用你创建的副本
+		fmt.Println("Done! in path " + cCopy.Request.URL.Path)
+
+	}()
 	fmt.Println("一个-路由组-中间件")
 }
