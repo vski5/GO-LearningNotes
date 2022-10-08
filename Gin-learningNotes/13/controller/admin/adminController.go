@@ -19,6 +19,7 @@ func (a AdminController) Back(c *gin.Context) {
 type Middleware struct{}
 
 func (m Middleware) Middleware1(c *gin.Context) {
+
 	fmt.Println("111")
 	//c.Next()会直接跳过下面的函数，执行下一个回调函数（中间件），最后在从第一个回调函数的c.Next()后面的执行
 	c.Next()

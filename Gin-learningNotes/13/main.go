@@ -26,6 +26,7 @@ func main() {
 		"Splicing": SplicingFunc,
 	})
 	r.LoadHTMLGlob("html/**/*")
+
 	routers.AdminRouterInit(r)
 	routers.FrontRouterInit(r)
 	r.Run(":8080")
