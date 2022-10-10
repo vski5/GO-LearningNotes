@@ -59,8 +59,8 @@ func main() {
 	r.POST("/uploadpage3", func(c *gin.Context) {
 
 		allfilm, _ := c.MultipartForm()
-		facefilm := allfilm.File["face[]"]
-		for _, facefilm := range facefilm {
+		facefilmsss := allfilm.File["face[]"]
+		for _, facefilm := range facefilmsss {
 			dst := path.Join("./default/", facefilm.Filename)
 			c.SaveUploadedFile(facefilm, dst)
 		}
