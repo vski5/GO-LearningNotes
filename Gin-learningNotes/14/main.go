@@ -41,13 +41,31 @@ func main() {
 		facefile, _ := c.FormFile("face")
 		dst := path.Join("./default/", facefile.Filename)
 		c.SaveUploadedFile(facefile, dst)
-		//重复一遍就行
+		//重复一遍就行，只能用于不同名字的多个文件
+
 		facefile2, _ := c.FormFile("face2")
 		dst2 := path.Join("./default/", facefile2.Filename)
 		c.SaveUploadedFile(facefile, dst2)
 	})
 
-	/*多个文件上传，历遍的版本*/
+	/*多个文件上传，历遍的版本,可以保存所有的同名文件到一起，用文件名分类了属于是*/
+	//用到函数 form,_ := c.MultipartForm()获得所有文件，
+	//files := form.File["face[]"]   ，将所有获取的文件中名叫face[]的写入files变量，同名指的是在HTML里面的同名，name元素一致。
+	//for _, file := range files历遍，挨个用c.SaveUploadedFile保存
+	r.GET("/upload3", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "default/up3.html", gin.H{})
+
+	})
+	r.POST("/uploadpage3", func(c *gin.Context) {
+
+		allfilm, _ := c.MultipartForm()
+		facefilm := allfilm.File["face[]"]
+		for _, facefilm := range facefilm {
+			dst := path.Join("./default/", facefilm.Filename)
+			c.SaveUploadedFile(facefilm, dst)
+		}
+
+	})
 
 	r.Run(":8080")
 

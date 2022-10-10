@@ -1,4 +1,4 @@
-{{define "default/up.html"}}
+{{define "default/up3.html"}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,9 +10,10 @@
 </head>
 <body>
     <h1>test</h1>
-    <form action="/uploadpage" method="post" enctype="multipart/form-data">
-        用户名： <input type="text" name="username" placeholder="用户名"> <br> <br>
-        头 像：<input type="file" name="face" placeholder="用户名"><br> <br>
+    <form action="/uploadpage3" method="post" enctype="multipart/form-data">
+
+        头 像：<input type="file" name="face[]" placeholder="同名指的是在HTML里面的同名，name元素一致。"><br> <br>
+        头 像2：<input type="file" name="face[]"><br> <br>
         <input type="submit" value="提交">
     </form>
 </body>
