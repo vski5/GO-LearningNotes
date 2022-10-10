@@ -26,6 +26,22 @@ func main() {
 		c.SaveUploadedFile(facefile, dst)
 	})
 
+	/*多个文件上传，不历遍的版本*/
+	r.GET("/upload2", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "default/up2.html", gin.H{})
+
+	})
+	r.POST("/uploadpage2", func(c *gin.Context) {
+		facefile, _ := c.FormFile("face")
+		dst := path.Join("./default/", facefile.Filename)
+		c.SaveUploadedFile(facefile, dst)
+		//重复一遍就行
+		facefile2, _ := c.FormFile("face2")
+		dst2 := path.Join("./default/", facefile2.Filename)
+		c.SaveUploadedFile(facefile, dst2)
+	})
+
+	/*多个文件上传，历遍的版本*/
 	r.Run(":8080")
 
 }
