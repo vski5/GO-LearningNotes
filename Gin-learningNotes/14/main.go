@@ -108,7 +108,11 @@ func main() {
 		c.HTML(200, "default/up4.html", gin.H{})
 	})
 	/*按上传日期保存文件*/
-	r.POST("/uploadpage4", FaceNameAll{}.SaveUnixFilm)
+	//实例化struct
+	var stu FaceNameAll
+	stu.faceName = "face"
+
+	r.POST("/uploadpage4", stu.SaveUnixFilm)
 	r.Run(":8080")
 
 }
