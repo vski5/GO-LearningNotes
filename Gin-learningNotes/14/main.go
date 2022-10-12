@@ -83,23 +83,24 @@ func main() {
 		}
 		//allowExt[userFilmExt] 会返回value（也就是对应的布尔类型）
 		if ok := allowExt[userFilmExt]; ok != true {
-			c.String(200, "文件后缀不合法", gin.H{})
-		}
+			c.String(200, "文件后缀不合法")
+		} else {
+			//获取现在的unix时间戳
+			timeUnix := time.Now().Unix()
+			//用本日时间戳组成文件名
+			userFilmName := strconv.FormatInt(timeUnix, 10) + userFilmExt
+			//获取本日时间
+			date := time.Now().Format("20060102")
+			//拼接文件保存路径
+			dateDir := "./userFilm/" + date
+			//创造文件保存路径
+			os.MkdirAll(dateDir, 0666)
+			//拼接文件保存路径和文件名
+			dateFileDir := path.Join(dateDir + userFilmName)
+			//最重要的，最后一步，保存文件。
+			c.SaveUploadedFile(userFilm, dateFileDir)
 
-		//获取现在的unix时间戳
-		timeUnix := time.Now().Unix()
-		//用本日时间戳组成文件名
-		userFilmName := strconv.FormatInt(timeUnix, 10) + userFilmExt
-		//获取本日时间
-		date := time.Now().Format("20060102")
-		//拼接文件保存路径
-		dateDir := "./userFilm/" + date
-		//创造文件保存路径
-		os.MkdirAll(dateDir, 0666)
-		//拼接文件保存路径和文件名
-		dateFileDir := path.Join(dateDir + userFilmName)
-		//最重要的，最后一步，保存文件。
-		c.SaveUploadedFile(userFilm, dateFileDir)
+		}
 
 	})
 
