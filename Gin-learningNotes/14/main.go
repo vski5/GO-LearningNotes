@@ -3,7 +3,10 @@ package main
 
 import (
 	"net/http"
+	"os"
 	"path"
+	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -64,6 +67,39 @@ func main() {
 			dst := path.Join("./default/", facefilm.Filename)
 			c.SaveUploadedFile(facefilm, dst)
 		}
+
+	})
+
+	/*按照日期创建文件夹，按照日期修改文件名再进行保存。*/
+	r.GET("/upload4", func(c *gin.Context) {
+		c.HTML(200, "default/up4.html", gin.H{})
+	})
+	r.POST("/uploadpage4", func(c *gin.Context) {
+		userFilm, _ := c.FormFile("face")
+		userFilmExt := path.Ext(userFilm.Filename)
+		allowExt := map[string]bool{
+			".jpg": true,
+			".png": true,
+		}
+		//allowExt[userFilmExt] 会返回value（也就是对应的布尔类型）
+		if ok := allowExt[userFilmExt]; ok != true {
+			c.String(200, "文件后缀不合法", gin.H{})
+		}
+
+		//获取现在的unix时间戳
+		timeUnix := time.Now().Unix()
+		//用本日时间戳组成文件名
+		userFilmName := strconv.FormatInt(timeUnix, 10) + userFilmExt
+		//获取本日时间
+		date := time.Now().Format("20060102")
+		//拼接文件保存路径
+		dateDir := "./userFilm/" + date
+		//创造文件保存路径
+		os.MkdirAll(dateDir, 0666)
+		//拼接文件保存路径和文件名
+		dateFileDir := path.Join(dateDir + userFilmName)
+		//最重要的，最后一步，保存文件。
+		c.SaveUploadedFile(userFilm, dateFileDir)
 
 	})
 
