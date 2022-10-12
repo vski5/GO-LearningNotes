@@ -102,6 +102,30 @@ func main() {
 
 		}
 
+		/*尝试一次性上传多个文件的问题*/
+		userFilm2, _ := c.FormFile("face2")
+		userFilmExt2 := path.Ext(userFilm2.Filename)
+		//allowExt[userFilmExt] 会返回value（也就是对应的布尔类型）
+		if ok := allowExt[userFilmExt2]; ok != true {
+			c.String(200, "文件后缀不合法")
+		} else {
+			//获取现在的unix时间戳
+			timeUnix := time.Now().Unix()
+			//用本日时间戳组成文件名
+			userFilmName2 := strconv.FormatInt(timeUnix, 10) + userFilmExt
+			//获取本日时间
+			date2 := time.Now().Format("20060102")
+			//拼接文件保存路径
+			dateDir2 := "./userFilm/" + date2
+			//创造文件保存路径
+			os.MkdirAll(dateDir2, 0666)
+			//拼接文件保存路径和文件名
+			dateFileDir2 := path.Join(dateDir2 + userFilmName2)
+			//最重要的，最后一步，保存文件。
+			c.SaveUploadedFile(userFilm2, dateFileDir2)
+
+		}
+
 	})
 
 	r.Run(":8080")
