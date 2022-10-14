@@ -118,8 +118,10 @@ func main() {
 	//实例化struct
 	var stu FaceNameAll
 	stu.faceName = "face"
+	var stu2 FaceNameAll
+	stu2.faceName = "face2"
 
-	r.POST("/uploadpage4", stu.SaveUnixFilm)
+	r.POST("/uploadpage4", stu.SaveUnixFilm, stu2.SaveUnixFilm)
 	r.Run(":8080")
 
 }
