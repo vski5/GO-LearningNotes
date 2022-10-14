@@ -2,6 +2,9 @@
 package main
 
 import (
+	"crypto/rand"
+	"math/big"
+	"math/rand"
 	"net/http"
 	"os"
 	"path"
@@ -29,10 +32,15 @@ func (faceNameAll *FaceNameAll) SaveUnixFilm(c *gin.Context) {
 	} else {
 		//获取现在的unix时间戳
 		timeUnix := time.Now().Unix()
+		//添加真随机数，解决同时传多个文件的问题
+		mathrand, _ := rand.Int(rand.Reader, big.NewInt(100))
+		mathrandint := mathrand.Int64()
+		mathrandstring := strconv.FormatInt(mathrandint, 10)
 		//用本日时间戳组成文件名
-		userFilmName := strconv.FormatInt(timeUnix, 10) + userFilmExt
+		userFilmName := strconv.FormatInt(timeUnix, 10) + mathrandstring + userFilmExt
 		//获取本日时间
 		date := time.Now().Format("20060102")
+
 		//拼接文件保存路径
 		dateDir := "./userFilm/" + date
 		//创造文件保存路径
