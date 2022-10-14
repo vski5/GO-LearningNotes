@@ -4,7 +4,6 @@ package main
 import (
 	"crypto/rand"
 	"math/big"
-	"math/rand"
 	"net/http"
 	"os"
 	"path"
