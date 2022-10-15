@@ -45,7 +45,29 @@ func main() {
 	//package sessions ("github.com/gin-contrib/sessions")
 	//设置全局中间件（所有路由都调用这个函数）
 	//传入值：cookie名，保存在哪个储存引擎
-	r.Use(sessions.Sessions("cookiename111", cookieSaver))
+	r.Use(sessions.Sessions("cookie_session_name111", cookieSaver))
+	r.GET("/sessionSet", func(c *gin.Context) {
+		//初始化session,表明与gin公用一个上下文*gin.Context
+		session111 := sessions.Default(c)
+		//通过修改struct也就是sessions.Options的内容来设置session存活时间
+		session111.Options(sessions.Options{
+			MaxAge: 3600 * 3, //三小时
+		})
+		//把session111同步设置到全局
+		session111.Set("cookieName222", "cookieValue222")
+		session111.Save()
+		//返回一个json看看效果
+		c.JSON(200, gin.H{
+			"获取cookie的对应value": session111.Get("cookieName222"),
+		})
+	})
+	r.GET("sessionCheck", func(c *gin.Context) {
+		//初始化session,只要是共用gin这个上下文就是一致的
+		session999 := sessions.Default(c)
+		c.JSON(200, gin.H{
+			"获取cookie的对应value": session999.Get("cookieName222"),
+		})
+	})
 
 	r.Run(":8080")
 }
