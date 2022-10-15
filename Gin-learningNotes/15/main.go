@@ -1,7 +1,11 @@
 // Gin中实现 cookie（本地）和session（客户端）
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
+	"github.com/gin-gonic/gin"
+)
 
 func main() {
 	r := gin.Default()
@@ -32,6 +36,16 @@ func main() {
 
 		c.String(200, "这是删除cookie")
 	})
+
+	/*搭建 Session*/
+
+	//存储在基于cookie的存储引擎
+	//创建基于cookie的存储引擎,[]byte("keyPassword")是密码
+	cookieSaver := cookie.NewStore([]byte("keyPassword"))
+	//package sessions ("github.com/gin-contrib/sessions")
+	//设置全局中间件（所有路由都调用这个函数）
+	//传入值：cookie名，保存在哪个储存引擎
+	r.Use(sessions.Sessions("cookiename111", cookieSaver))
 
 	r.Run(":8080")
 }
