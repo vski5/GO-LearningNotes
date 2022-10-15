@@ -92,10 +92,13 @@ func main() {
 	//先在redis-cli里set rediscookie222 redisvalue222
 	//再确认
 	r.GET("redischeck", func(c *gin.Context) {
-		redissession := sessions.Default(c)
-		c.JSON(200, map[string]interface{}{
+		// 初始化 session 对象
+		session := sessions.Default(c)
+		// 通过 session.Get 读取 session 值
+		username := session.Get("rediscookie222")
+		c.JSON(200, gin.H{
 			"放redis里的cookie的key":   "rediscookie222",
-			"放redis里的cookie的value": redissession.Get("rediscookie222"),
+			"放redis里的cookie的value": username,
 		})
 	})
 
