@@ -95,9 +95,9 @@ func main() {
 		// 初始化 session 对象
 		session := sessions.Default(c)
 		// 通过 session.Get 读取 session 值
-		username := session.Get("rediscookie222")
+		username := session.Get("rediscookie999")
 		c.JSON(200, gin.H{
-			"放redis里的cookie的key":   "rediscookie222",
+			"放redis里的cookie的key":   "rediscookie999",
 			"放redis里的cookie的value": username,
 		})
 	})
