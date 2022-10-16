@@ -76,7 +76,7 @@ func main() {
 	// 第 3 个参数 - redis 地址, 格式，host:port
 	// 第 4 个参数 - redis 密码
 	// 第 5 个参数 - session 加密密钥
-	redisStore, _ := redis.NewStore(5, "tcp", "localhost:6379", "", []byte("sessionKeyWord"))
+	redisStore, _ := redis.NewStore(5, "tcp", "127.0.0.1:6379", "", []byte("sessionKeyWord"))
 
 	//设置中间件到全局
 	r.Use(sessions.Sessions("mySessionName", redisStore))
