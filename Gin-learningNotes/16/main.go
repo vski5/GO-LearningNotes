@@ -18,6 +18,7 @@ func main() {
 
 	//设置中间件到全局
 	r.Use(sessions.Sessions("mySessionName", redisStore))
+
 	r.GET("redis", func(c *gin.Context) {
 		redissession := sessions.Default(c)
 		redissession.Set("rediscookie", "redisname")
