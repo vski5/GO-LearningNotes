@@ -13,8 +13,8 @@ func main() {
 	// 第 2 个参数 - 数通信协议 tcp 或者 udp
 	// 第 3 个参数 - redis 地址, 格式，host:port
 	// 第 4 个参数 - redis 密码
-	// 第 5 个参数 - session 加密密钥 []byte("")
-	redisStore, _ := redis.NewStore(5, "tcp", "127.0.0.1:6379", "mimais018915")
+	// 第 5 个参数 - session 加密密钥,[]byte("")
+	redisStore, _ := redis.NewStore(5, "tcp", "127.0.0.1:6379", "", []byte(""))
 
 	//设置中间件到全局
 	r.Use(sessions.Sessions("mySessionName", redisStore))
