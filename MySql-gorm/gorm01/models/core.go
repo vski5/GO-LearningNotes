@@ -8,6 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// 赋值给全局的DB共享一个底层连接
 var DB *gorm.DB
 var err error
 
