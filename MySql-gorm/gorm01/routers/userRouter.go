@@ -1,4 +1,4 @@
-/* package routers
+package routers
 
 import (
 	"gorm01/controllers"
@@ -6,11 +6,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func UserRouterInit() (rou *gin.Engine) {
-	userRouters := rou.Group("admin")
+func UserRouterInit(r *gin.Engine) {
+	userRouters := r.Group("admin")
 	{
 		userRouters.GET("/add", controllers.UserController{}.Add)
 		userRouters.GET("/search", controllers.UserController{}.Search)
 	}
+
 }
-*/
