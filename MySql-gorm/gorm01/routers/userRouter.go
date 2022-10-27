@@ -7,7 +7,7 @@ import (
 )
 
 func UserRouterInit(r *gin.Engine) {
-	userRouters := r.Group("admin")
+	userRouters := r.Group("/db")
 	{
 		userRouters.GET("/add", controllers.UserController{}.Add)
 		userRouters.GET("/search", controllers.UserController{}.Search)

@@ -20,22 +20,27 @@ func (a UserController) Add(c *gin.Context) {
 	c.String(200, "add")
 }
 
-// 查找数据库行，方法1
+// 查找数据库行，方法1 ，默认查找第一行
 func (a UserController) Search(c *gin.Context) {
-	//先实例化,把models.User{}先变成结构体对象的切片，方便models.DB.First(&user)赋值
-	userArry := []models.User{}
+	/* 	//先实例化,把models.User{}先变成结构体对象的切片，方便models.DB.First(&user)等查询方法赋值
+	   	userArry1 := []models.User{}
 
-	// 获取第一条记录（主键升序）(在实例化的时候，不加匹配条件的情况下)(查询到的数据赋值给user)
-	models.DB.First(&userArry)
+	   	// 获取所有记录（主键升序）(在实例化的时候，不加匹配条件的情况下)(查询到的数据赋值给user)
+	   	models.DB.First(&userArry1)
 
-	//测试一下
+	   	//测试一下
+	   	c.JSON(200, gin.H{
+	   		"userArry": userArry1,
+	   	}) */
+	test := &models.User{}
+	models.DB.Find(test)
 	c.JSON(200, gin.H{
-		"userArry": userArry,
+		"userArry": test,
 	})
 
 }
 
 // 删除数据库行，方法1
 func (a UserController) Delete(c *gin.Context) {
-	c.String(200, "Search")
+	c.String(200, "Delete")
 }
