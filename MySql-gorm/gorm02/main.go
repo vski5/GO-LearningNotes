@@ -14,7 +14,12 @@ type User struct { //此时，默认的对应的表为users
 	AddTime  int
 }
 
-// 就算不是英语也一样，Xxx这个结构体对应数据库里的xxxs
+// 就算不是英语也一样，Xxx这个结构体对应数据库里的xxxs，但也有例外
+/* 在结构体上绑定方法 ， 改变结构体的默认表名称，此时User绑定的就从users变成了user，如果没有，那就查不到
+func (U User) TableName() string {
+	return "user"
+} */
+
 type Ceshi struct { //此时，默认的对应的表为ceshis <--小写末尾加s
 	Id   int //都是表里的列，首字母大写。
 	Punk int

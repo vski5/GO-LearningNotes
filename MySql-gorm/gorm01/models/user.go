@@ -11,7 +11,8 @@ type User struct {
 	AddTime  int
 }
 
-// 在结构体上绑定方法 ， 改变结构体的默认表名称
+// 在结构体上绑定方法 ， 改变结构体的默认表名称，此时User绑定的数据库的表就从users变成了user，如果没有，那就查不到
+// TableName()是自拟的函数，只需要return的是string就行
 func (U User) TableName() string {
 	return "user"
 }
