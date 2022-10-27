@@ -11,6 +11,7 @@ func UserRouterInit(r *gin.Engine) {
 	{
 		userRouters.GET("/add", controllers.UserController{}.Add)
 		userRouters.GET("/search", controllers.UserController{}.Search)
+		userRouters.GET("/delete", controllers.UserController{}.Delete)
 	}
 
 }
