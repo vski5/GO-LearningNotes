@@ -2,6 +2,9 @@ package controllers
 
 import (
 	"gorm01/models"
+	"net/http"
+	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,11 +15,58 @@ type UserController struct{}
 
 // 增加数据库行，方法1
 func (a UserController) Add(c *gin.Context) {
+	timeUnix := time.Now().Unix()
+	timeUnixInt64 := strconv.FormatInt(timeUnix, 10)
+	timeUnixInt, _ := strconv.Atoi(timeUnixInt64)
+	user := models.User{
+		Id:       77,
+		Username: "ccsssaaa",
+		Age:      33,
+		Email:    "rvr@ewc1ew1c",
+		AddTime:  timeUnixInt,
+	}
 
-	//先实例化
-	//user := &User{}
-	//，把获取的数据放结构体里面。
-	//models.DB.Find(&user)
+	models.DB.Create(&user) // 通过数据的指针来创建
+
+	//user.Id             // 返回插入数据的主键
+	//result.Error        // 返回 error
+	//result.RowsAffected // 返回插入记录的条数
+	c.String(200, "add")
+}
+
+// 增加数据库行，方法2 ，根据map创建
+// 根据 map[string]interface{} 和 []map[string]interface{}{} 创建记录
+func (a UserController) Add2(c *gin.Context) {
+	timeUnix := time.Now().Unix()
+	timeUnixInt64 := strconv.FormatInt(timeUnix, 10)
+	timeUnixInt, _ := strconv.Atoi(timeUnixInt64)
+
+	models.DB.Model(&models.User{}).Create(map[string]interface{}{
+		"Id":       77,
+		"Username": "ccsssaaa",
+		"Age":      33,
+		"Email":    "rvr@ewc1ew1c",
+		"AddTime":  timeUnixInt,
+	})
+
+	// batch insert from `[]map[string]interface{}{}`
+	models.DB.Model(&models.User{}).Create([]map[string]interface{}{
+		{
+			"Id":       23,
+			"Username": "ccsssaaa",
+			"Age":      33,
+			"Email":    "rvr@ee1c",
+			"AddTime":  timeUnixInt,
+		},
+		{
+			"Id":       72,
+			"Username": "ccsssaaa",
+			"Age":      33,
+			"Email":    "rvr@ewcw1c",
+			"AddTime":  timeUnixInt,
+		},
+	})
+
 	c.String(200, "add")
 }
 
@@ -97,7 +147,29 @@ func (a UserController) Search3(c *gin.Context) {
 	})
 }
 
-// 删除数据库行，方法1
+// 删除数据库行，删除一条记录时，删除对象需要指定主键，否则会触发 批量 Delete
+// 方法1
 func (a UserController) Delete(c *gin.Context) {
+	// 全删了
+	//models.DB.Delete(&models.User{})
+
+	// 带额外条件的删除
+	models.DB.Where("name = ?", "jinzhu").Delete(&models.User{
+		Id: 73, //删除id为73的
+	})
+
 	c.String(200, "Delete")
+}
+
+// 更新数据库行， 方法1
+// Save 会保存所有的字段，即使字段是零值
+func (a UserController) Update1(c *gin.Context) {
+
+	user := models.User{Id: 73}
+	models.DB.Find(&user)
+	user.Username = "gogogogo"
+	user.Age = 1
+	models.DB.Save(&user)
+
+	c.String(http.StatusOK, "Edit")
 }
