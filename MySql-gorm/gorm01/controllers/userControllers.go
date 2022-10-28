@@ -124,20 +124,20 @@ func (a UserController) Search2(c *gin.Context) {
 func (a UserController) Search3(c *gin.Context) {
 	//先实例化,把models.User{}先变成结构体对象的切片，方便models.DB.First(&user)等查询方法赋值
 	userArry1 := []models.User{}
-	userArry2 := []models.User{}
-	userArry3 := []models.User{}
 
 	// 获取所有记录（主键升序）(在实例化的时候，不加匹配条件的情况下)(查询到的数据赋值给user)
 	models.DB.Find(&userArry1)
 
-	models.DB.Where(&models.User{Username: "gorm"}, "username", "Age").Find(&userArry2)
-	// SELECT * FROM users WHERE Username = "gorm" AND age = 0;
-
-	models.DB.Where(&models.User{Username: "gorm"}, "Age").Find(&userArry3)
-	// SELECT * FROM users WHERE age = 0;
+	//用结构体查特定数据
+	userArry2 := &models.User{Id: 3}
+	models.DB.Find(userArry2)
 
 	//获取特定数据
-	models.DB.Where("id = ?", 2)
+	//models.DB.Where("id = ?", 2)  ,  符号很多种
+	//models.DB.Where("id > ?", 2)
+	userArry3 := []models.User{}
+	models.DB.Where("id in (?)", []int{1, 2, 3}).Find(&userArry3)
+	//models.DB.Find(&userArry4, []int{1, 2, 3}) ，也可以在find后面写
 
 	//测试一下
 	c.JSON(200, gin.H{
