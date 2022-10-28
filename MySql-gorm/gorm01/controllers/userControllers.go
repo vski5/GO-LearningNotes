@@ -139,6 +139,10 @@ func (a UserController) Search3(c *gin.Context) {
 	models.DB.Where("id in (?)", []int{1, 2, 3}).Find(&userArry3)
 	//models.DB.Find(&userArry4, []int{1, 2, 3}) ，也可以在find后面写
 
+	//模糊查询，查询包含关键字的
+	userArry4 := []models.User{}
+	models.DB.Where("id like ?", "%关键字%").Find(&userArry4)
+
 	//测试一下
 	c.JSON(200, gin.H{
 		"userArry1": userArry1,
