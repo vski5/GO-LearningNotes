@@ -38,10 +38,10 @@ type Article222 struct {
 }
 
 type ArticleCate222 struct {
-	Id      int       `json:"id"`
-	Title   string    `json:"title"`
-	State   int       `json:"state"`
-	Article []Article `gorm:"foreignKey:CateId;references:Id"`
+	Id      int        `json:"id"`
+	Title   string     `json:"title"`
+	State   int        `json:"state"`
+	Article Article222 `gorm:"foreignKey:CateId;references:Id"`
 }
 
 func (Article222) TableName() string {
