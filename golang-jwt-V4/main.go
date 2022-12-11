@@ -199,6 +199,8 @@ func main() {
 		}
 		str, _ := a.GetJWT(c)
 		fmt.Println(str)
+		lenstr := len(str)
+		fmt.Println("***************", lenstr, "***************")
 		//用反射求证一下
 		t := reflect.TypeOf(str)
 		fmt.Println(t.Name())
