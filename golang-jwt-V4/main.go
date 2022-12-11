@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"reflect"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -30,7 +31,7 @@ type MyUserJWTClaims struct {
 	*/
 }
 
-// 生成和签名JWT，(并且用gin存储到浏览器中)
+// 生成和签名JWT
 func (userJWT MyUserJWTClaims) CreateToken() (string, error) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256,
@@ -89,6 +90,35 @@ func ValidateToken(tokenString string, my_secret_key []byte) (back map[string]in
 
 }
 
+// 将使用GIN设置JWT 和 生成和签名JWT 封装到一起。 Scope是 作用域
+func (userJWT MyUserJWTClaims) SetJWT(c *gin.Context, Scope string) {
+	tokenString, err := userJWT.CreateToken()
+	if tokenString != "" && err == nil {
+		c.SetCookie("Token", tokenString, 3600, "/", Scope, false, true)
+	}
+}
+
+// 将使用GIN获取JWT 和 验证并且解析JWT 封装到一起。需要实例化MyUserJWTClaims里的Secret
+func (userJWT MyUserJWTClaims) GetJWT(c *gin.Context) ([]string, error) {
+	// 从请求头中获取 Token 信息
+	tokenget111, _ := c.Request.Cookie("Token")
+
+	ca, _ := ValidateToken(tokenget111.Value, userJWT.Secret)
+
+	if urls, ok := ca["Urls"].([]interface{}); ok {
+		y := make([]string, len(urls))
+		for i, v := range urls {
+			y[i] = v.(string)
+		}
+		// y 是 []string 类型
+		return y, nil
+
+	} else {
+		// x["Urls"] 不是 []interface{} 类型
+		return nil, errors.New("x[\"Urls\"] 不是 []interface{} 类型")
+	}
+}
+
 // 在gin环境下测试
 func main() {
 	r := gin.Default()
@@ -132,7 +162,27 @@ func main() {
 		}
 
 	})
-
+	r.GET("/test1", func(c *gin.Context) {
+		a := &MyUserJWTClaims{
+			Username: "JWTUsernameJWTUsernameJWTUsernameJWTUsername",
+			Urls:     []string{"test213456798", "test213456798"},
+			Secret:   []byte("my_secret_key"),
+		}
+		a.SetJWT(c, "a.20011111.xyz")
+	})
+	r.GET("/test2", func(c *gin.Context) {
+		a := &MyUserJWTClaims{
+			Username: "JWTUsernameJWTUsernameJWTUsernameJWTUsername",
+			Urls:     []string{"test213456798", "test213456798"},
+			Secret:   []byte("my_secret_key"),
+		}
+		str, _ := a.GetJWT(c)
+		fmt.Println(str)
+		//用反射求证一下
+		t := reflect.TypeOf(str)
+		fmt.Println(t.Name())
+		fmt.Println(t.Kind())
+	})
 	r.Run(":8080")
 
 }
