@@ -30,7 +30,7 @@ type MyUserJWTClaims struct {
 	*/
 }
 
-// 生成和签名JWT，并且用gin存储到浏览器中
+// 生成和签名JWT，(并且用gin存储到浏览器中)
 func (userJWT MyUserJWTClaims) CreateToken() (string, error) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256,
@@ -47,19 +47,14 @@ func (userJWT MyUserJWTClaims) CreateToken() (string, error) {
 }
 
 // 验证 和 解析 JWT
-func ValidateToken(c *gin.Context, my_secret_key []byte) (back interface{}, err error) {
-	// 获取 http.Request 类型的指针
-	req := c.Request
+func ValidateToken(tokenString string, my_secret_key []byte) (back interface{}, err error) {
 
-	// 从请求头中获取 Token 信息
-	tokenget := req.Header.Get("Token")
-
-	if tokenget == " " { //如果没有Token
+	if tokenString == " " { //如果没有Token
 
 		//c.String(http.StatusInternalServerError, err.Error())
 		return fmt.Errorf("token is nill"), nil
 	} else { //token和 JWT 装饰器函数传递到 parse 方法中，然后返回接口和错误
-		token, _ := jwt.Parse(tokenget, func(token *jwt.Token) (interface{}, error) {
+		token, _ := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 				return fmt.Errorf("there was an error in parsing"), nil //错误消息首字母要小写。创建一个 error错误。
 			}
@@ -76,11 +71,11 @@ func ValidateToken(c *gin.Context, my_secret_key []byte) (back interface{}, err 
 			} else {
 				// 以MyUserJWTClaims构建的JWT为例
 
-				id := claims["Id"].(int)
+				//id := claims["Id"].(int)
 				username := claims["Username"].(string)
 				urls := claims["Urls"].([]string)
 				userJWTS := &MyUserJWTClaims{
-					Id:       id,
+					//Id:       id,
 					Username: username,
 					Urls:     urls,
 				}
@@ -99,27 +94,46 @@ func ValidateToken(c *gin.Context, my_secret_key []byte) (back interface{}, err 
 func main() {
 	r := gin.Default()
 
-	r.GET("/test", func(c *gin.Context) {
+	r.GET("/set", func(c *gin.Context) {
+		var idInt int = 33
 		a := &MyUserJWTClaims{
-			Id:       1,
+			Id:       idInt,
 			Username: "JWTUsernameJWTUsernameJWTUsernameJWTUsername",
 			Urls:     []string{"test213456798", "test213456798"},
 			Secret:   []byte("my_secret_key"),
 		}
 		val, err111 := a.CreateToken()
-		ca, _ := ValidateToken(c, a.Secret)
-		fmt.Println("+++++++++++++++++++++++++++++++++++++++++")
-		//fmt.Println(a1)
-		fmt.Println("+++++++++++++++++++++++++++++++++++++++++")
-		//fmt.Println(b1)
-		fmt.Println("+++++++++++++++++++++++++++++++++++++++++")
-		fmt.Println(ca)
+
 		fmt.Println("+++++++++++++++++++++++++++++++++++++++++")
 		fmt.Println(val, err111)
 		fmt.Println("+++++++++++++++++++++++++++++++++++++++++")
 		// 将token存储到客户端的浏览器中
-		//c.SetCookie("token", val, 3600, "/", "localhost", false, true)
+		c.Set("Token", val)
+		//c.SetCookie("Token", val, 3600, "/", "a.20011111.xyz", false, true)
 		c.String(200, val)
+	})
+
+	r.GET("/get", func(c *gin.Context) {
+		a := &MyUserJWTClaims{
+			Secret: []byte("my_secret_key"),
+		}
+		// 从请求头中获取 Token 信息
+		tokenget111, _ := c.Request.Cookie("Token")
+
+		fmt.Println("+++++++++++++++++++++++++++++++++++++++++")
+		fmt.Println(tokenget111.Value)
+		fmt.Println("+++++++++++++++++++++++++++++++++++++++++")
+
+		ca, _ := ValidateToken(tokenget111.Value, a.Secret)
+		fmt.Println("=========================================")
+		fmt.Println(ca)
+		fmt.Println("=========================================")
+		ms, ok := ca.(MyUserJWTClaims)
+		str := fmt.Sprintf("%v", ms)
+		if ok {
+			c.String(200, str)
+		}
+
 	})
 
 	r.Run(":8080")
