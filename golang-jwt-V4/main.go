@@ -12,7 +12,7 @@ import (
 
 // 这里定义JWT的Payload部分和加密密码和作用域
 type MyUserJWTClaims struct {
-	Id       int      `json:"id"`
+	//Id       int      `json:"id"`
 	Username string   `json:"username"`
 	Urls     []string `json:"urls"`
 	Secret   []byte   //[]byte("my_secret_key")
@@ -35,7 +35,7 @@ func (userJWT MyUserJWTClaims) CreateToken() (string, error) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256,
 		jwt.MapClaims{ //MapClaims is a claims type that uses the map[string]interface{} for JSON decoding.
-			"Id":       userJWT.Id,
+			//"Id":       userJWT.Id,
 			"Username": userJWT.Username,
 			"Urls":     userJWT.Urls,
 			"exp":      time.Now().Add(time.Hour * 24).Unix(),
@@ -47,12 +47,12 @@ func (userJWT MyUserJWTClaims) CreateToken() (string, error) {
 }
 
 // 验证 和 解析 JWT
-func ValidateToken(tokenString string, my_secret_key []byte) (back interface{}, err error) {
+func ValidateToken(tokenString string, my_secret_key []byte) (back map[string]interface{}, err error) {
 
 	if tokenString == " " { //如果没有Token
 
 		//c.String(http.StatusInternalServerError, err.Error())
-		return fmt.Errorf("token is nill"), nil
+		return nil, errors.New("token error")
 	} else { //token和 JWT 装饰器函数传递到 parse 方法中，然后返回接口和错误
 		token, _ := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
@@ -70,16 +70,15 @@ func ValidateToken(tokenString string, my_secret_key []byte) (back interface{}, 
 				return nil, errors.New("token error")
 			} else {
 				// 以MyUserJWTClaims构建的JWT为例
+				//id := claims["Id"]
+				username := claims["Username"]
+				urls := claims["Urls"]
 
-				//id := claims["Id"].(int)
-				username := claims["Username"].(string)
-				urls := claims["Urls"].([]string)
-				userJWTS := &MyUserJWTClaims{
-					//Id:       id,
-					Username: username,
-					Urls:     urls,
+				userJWTS := map[string]interface{}{
+					//"Id":       id,
+					"Username": username,
+					"Urls":     urls,
 				}
-
 				return userJWTS, errors.New("token error")
 			}
 
@@ -95,21 +94,16 @@ func main() {
 	r := gin.Default()
 
 	r.GET("/set", func(c *gin.Context) {
-		var idInt int = 33
 		a := &MyUserJWTClaims{
-			Id:       idInt,
 			Username: "JWTUsernameJWTUsernameJWTUsernameJWTUsername",
 			Urls:     []string{"test213456798", "test213456798"},
 			Secret:   []byte("my_secret_key"),
 		}
-		val, err111 := a.CreateToken()
+		val, _ := a.CreateToken()
 
-		fmt.Println("+++++++++++++++++++++++++++++++++++++++++")
-		fmt.Println(val, err111)
-		fmt.Println("+++++++++++++++++++++++++++++++++++++++++")
 		// 将token存储到客户端的浏览器中
-		c.Set("Token", val)
-		//c.SetCookie("Token", val, 3600, "/", "a.20011111.xyz", false, true)
+		//c.Set("Token", val)
+		c.SetCookie("Token", val, 3600, "/", "a.20011111.xyz", false, true)
 		c.String(200, val)
 	})
 
@@ -120,18 +114,21 @@ func main() {
 		// 从请求头中获取 Token 信息
 		tokenget111, _ := c.Request.Cookie("Token")
 
-		fmt.Println("+++++++++++++++++++++++++++++++++++++++++")
-		fmt.Println(tokenget111.Value)
-		fmt.Println("+++++++++++++++++++++++++++++++++++++++++")
-
 		ca, _ := ValidateToken(tokenget111.Value, a.Secret)
-		fmt.Println("=========================================")
-		fmt.Println(ca)
-		fmt.Println("=========================================")
-		ms, ok := ca.(MyUserJWTClaims)
-		str := fmt.Sprintf("%v", ms)
-		if ok {
-			c.String(200, str)
+
+		if urls, ok := ca["Urls"].([]interface{}); ok {
+			y := make([]string, len(urls))
+			for i, v := range urls {
+				y[i] = v.(string)
+			}
+			// y 是 []string 类型
+			fmt.Println(y)
+			//我需要得到的就是y
+			fmt.Println("===================我需要得到的就是 y ======================")
+		} else {
+			// x["Urls"] 不是 []interface{} 类型
+			fmt.Println("x[\"Urls\"] 不是 []interface{} 类型")
+			fmt.Println("=========================================")
 		}
 
 	})
