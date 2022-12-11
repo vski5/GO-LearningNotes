@@ -119,6 +119,27 @@ func (userJWT MyUserJWTClaims) GetJWT(c *gin.Context) ([]string, error) {
 	}
 }
 
+// 封装到interface里
+type JWTSet interface {
+	SetJWT(c *gin.Context, Scope string)
+	GetJWT(c *gin.Context) ([]string, error)
+}
+
+//
+/*使用方法
+UseJWT(k)
+k := MyUserJWTClaims{
+			Username: "JWTUsername",
+			Urls:     []string{"test213456798", "test213456798"},
+			Secret:   []byte("my_secret_key"),
+		}
+
+*/
+/* func UseJWT(g JWTSet) {
+	fmt.Println(g.SetJWT)
+	fmt.Println(g.GetJWT)
+} */
+
 // 在gin环境下测试
 func main() {
 	r := gin.Default()
