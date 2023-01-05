@@ -19,10 +19,16 @@ func (d Dog) Speak() string {
 }
 
 type Cat struct {
+	CatMean string
 }
 
 func (c Cat) Speak() string {
-	return "Meow!"
+	return "Meow!" + c.CatMean
+}
+
+// 相当于struct的方法给函数分组，用方法结合interface的输入值给函数分组
+func UseInterface(a Animal) {
+	fmt.Println(a.Speak())
 }
 
 func main() {
@@ -30,4 +36,10 @@ func main() {
 	for _, animal := range animals {
 		fmt.Println(animal.Speak())
 	}
+	// 实例化Cat struct
+	catReal := Cat{
+		CatMean: "catcatcat",
+	}
+	//因为cat struct实现了interface，所以输入值为interface的函数可以直接填写cat struct
+	UseInterface(catReal)
 }
