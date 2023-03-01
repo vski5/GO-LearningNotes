@@ -13,8 +13,10 @@ type Hello struct {
 
 /*
 1、方法只能有两个可序列化的参数，其中第二个参数是指针类型
+
 	req 表示获取客户端传过来的数据
 	res 表示给客户端返回数据
+
 2、方法要返回一个error类型，同时必须是公开的方法。
 
 3、req和res的类型不能是：channel（通道）、func（函数）均不能进行 序列化
@@ -27,7 +29,7 @@ func (this Hello) SayHello(req string, res *string) error {
 
 func main() {
 	//1. 注册RPC服务
-	err1 := rpc.RegisterName("hello", new(Hello))
+	err1 := rpc.RegisterName("hello", new(Hello)) //用new()给struct分配内存
 	if err1 != nil {
 		fmt.Println(err1)
 	}
