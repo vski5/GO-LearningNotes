@@ -28,7 +28,7 @@ func (this Hello) SayHello(req string, res *string) error {
 }
 
 func main() {
-	//1. 注册RPC服务
+	//1. 注册RPC服务，注册的服务名的hello，使用的是Hello结构体绑定的方法
 	err1 := rpc.RegisterName("hello", new(Hello)) //用new()给struct分配内存
 	if err1 != nil {
 		fmt.Println(err1)
